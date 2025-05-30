@@ -5,6 +5,7 @@
 #include "customers.h"
 #include "orders.h"
 
+
 int main(int argc, char *argv[]) {
     gtk_init(&argc, &argv);
 
@@ -25,10 +26,19 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    if (!inventory_init(db)) {
+        fprintf(stderr, "Failed to initialize inventory\n");
+        db_close(db);
+        return 1;
+
+        inventory_add(db, "Widget", 10, 5.99);
+        inventory_add(db, "Gadget", 15, 9.99);
+
     gui_init();
 
     gtk_main();
 
     db_close(db);
+    inventory_list(db);
     return 0;
 }
